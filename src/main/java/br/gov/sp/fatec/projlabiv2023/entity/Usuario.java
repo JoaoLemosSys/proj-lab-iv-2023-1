@@ -1,10 +1,18 @@
 package br.gov.sp.fatec.projlabiv2023.entity;
 
+import java.util.Set;
+
+import org.hibernate.annotations.ManyToAny;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +29,21 @@ public class Usuario {
 
     @Column(name = "usr_senha")
     private String senha;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="uau_usuario_autorizacao",
+        joinColumns = {@JoinColumn(name="usr_id")},
+        inverseJoinColumns = {@JoinColumn(name="aut_id")})
+    private Set<Autorizacao> autorizacao;
+    
+
+    public Set<Autorizacao> getAutorizacao() {
+        return autorizacao;
+    }
+
+    public void setAutorizacao(Set<Autorizacao> autorizacao) {
+        this.autorizacao = autorizacao;
+    }
 
     public Usuario() {
     }
